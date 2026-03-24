@@ -91,6 +91,64 @@ function updateGauge(score) {
   if (text) text.textContent = score;
 }
 
+// ── Auto-Sync Emails ─────────────────────────────────────────
+async function syncAndProcessEmails() {
+  if (!account) return alert('Please connect wallet first!');
+  const btn = document.getElementById('syncBtn');
+  const btnText = document.getElementById('syncBtnText');
+  const btnLoading = document.getElementById('syncBtnLoading');
+  
+  btnText.style.display = 'none';
+  btnLoading.style.display = 'inline-block';
+  btn.style.opacity = '0.7';
+  btn.disabled = true;
+
+  try {
+    // 1. Fetch mock unread emails
+    const syncRes = await fetch(`${API_BASE}/api/sync-emails`);
+    const syncData = await syncRes.json();
+    if (!syncData.success) throw new Error(syncData.error);
+    
+    const emails = syncData.emails;
+    console.log(`Fetched ${emails.length} unread emails. Processing...`);
+
+    // 2. Process each email sequentially through the AI
+    for (const email of emails) {
+      await autoSubmitDecision(email.module, email.data);
+    }
+    
+    alert(`Successfully synced and processed ${emails.length} unread emails!`);
+  } catch (err) {
+    alert('Error syncing emails: ' + err.message);
+  } finally {
+    btnText.style.display = 'inline-block';
+    btnLoading.style.display = 'none';
+    btn.style.opacity = '1';
+    btn.disabled = false;
+  }
+}
+
+async function autoSubmitDecision(moduleType, autoData) {
+  try {
+    const res = await fetch(`${API_BASE}/api/process`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ module: moduleType, data: autoData })
+    });
+    const result = await res.json();
+    if (!result.success) throw new Error(result.error);
+    
+    // Switch to the correct tab to show the result
+    switchTab(moduleType.toLowerCase());
+    renderResult(result, moduleType);
+    addFeedEvent(result);
+    if (result.slaId) addSLA(result);
+    await loadStats();
+  } catch (err) {
+    console.error(`Error processing auto-submitted ${moduleType} decision:`, err);
+  }
+}
+
 // ── Submit Decision ──────────────────────────────────────────
 async function submitDecision(moduleType) {
   const data = gatherFormData(moduleType);
