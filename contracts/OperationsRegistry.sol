@@ -15,6 +15,7 @@ contract OperationsRegistry {
         uint8       confidence;      // 0-100 from AI
         bytes32     advocateHash;    // keccak256 of advocate argument
         bytes32     skepticHash;     // keccak256 of skeptic argument
+        bytes32     judgeHash;       // keccak256 of judge's final verdict/action
         uint256     timestamp;
         address     operator;
         bool        slaCreated;
@@ -72,7 +73,8 @@ contract OperationsRegistry {
         Verdict    _verdict,
         uint8      _confidence,
         bytes32    _advocateHash,
-        bytes32    _skepticHash
+        bytes32    _skepticHash,
+        bytes32    _judgeHash
     ) external returns (uint256 decisionId) {
         decisions.push(Decision({
             inputHash:     _inputHash,
@@ -81,6 +83,7 @@ contract OperationsRegistry {
             confidence:    _confidence,
             advocateHash:  _advocateHash,
             skepticHash:   _skepticHash,
+            judgeHash:     _judgeHash,
             timestamp:     block.timestamp,
             operator:      msg.sender,
             slaCreated:    false
@@ -129,7 +132,7 @@ contract OperationsRegistry {
         }
 
         uint256 newScore = opsScore[msg.sender] + points;
-        if (newScore > 1000) newScore = 1000;
+        if (newScore > 100) newScore = 100;
         opsScore[msg.sender] = newScore;
 
         emit SLAFulfilled(_slaId, msg.sender, hoursLeft);

@@ -82,7 +82,7 @@ async function loadStats() {
 }
 
 function updateGauge(score) {
-  const pct = score / 10;
+  const pct = score;
   const circumference = 142;
   const filled = circumference * (pct / 100);
   const arc = document.getElementById('gaugeArc');
@@ -324,7 +324,7 @@ async function loadTrustDashboard() {
             <div class="trust-grade-label">Ops Rating</div>
           </div>
           <div class="trust-score-num">
-            <div class="trust-score-val">${score}<span style="font-size:0.6em;opacity:0.7">/1000</span></div>
+            <div class="trust-score-val">${score}<span style="font-size:0.6em;opacity:0.7">/100</span></div>
             <div class="trust-score-label">Reputation Score</div>
           </div>
         </div>
