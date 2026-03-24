@@ -65,18 +65,24 @@
 
   <!-- Module Tabs -->
   <div class="container">
-    <nav class="tab-nav">
-      <button class="tab active" data-tab="lead" onclick="switchTab('lead')">
-        <span class="tab-icon">🎯</span> Lead Qualifier
-      </button>
-      <button class="tab" data-tab="support" onclick="switchTab('support')">
-        <span class="tab-icon">🛡️</span> Support Triage
-      </button>
-      <button class="tab" data-tab="task" onclick="switchTab('task')">
-        <span class="tab-icon">⚡</span> Task Delegator
-      </button>
-      <button class="tab" data-tab="trust" onclick="switchTab('trust')">
-        <span class="tab-icon">📊</span> Trust Dashboard
+    <nav class="tab-nav" style="display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex; gap: 8px;">
+        <button class="tab active" data-tab="lead" onclick="switchTab('lead')">
+          <span class="tab-icon">🎯</span> Lead Qualifier
+        </button>
+        <button class="tab" data-tab="support" onclick="switchTab('support')">
+          <span class="tab-icon">🛡️</span> Support Triage
+        </button>
+        <button class="tab" data-tab="task" onclick="switchTab('task')">
+          <span class="tab-icon">⚡</span> Task Delegator
+        </button>
+        <button class="tab" data-tab="trust" onclick="switchTab('trust')">
+          <span class="tab-icon">📊</span> Trust Dashboard
+        </button>
+      </div>
+      <button id="syncBtn" onclick="syncAndProcessEmails()" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 8px; padding: 10px 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; transition: transform 0.2s, box-shadow 0.2s;">
+        <span id="syncBtnText">📥 Auto-Sync Emails</span>
+        <span id="syncBtnLoading" style="display:none; font-size: 0.75rem;">Processing<span class="dots"></span></span>
       </button>
     </nav>
 

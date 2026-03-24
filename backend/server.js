@@ -167,6 +167,46 @@ app.get("/api/decisions/:address", async (req, res) => {
 });
 
 /**
+ * Endpoint to sync mock unread emails.
+ */
+app.get("/api/sync-emails", async (req, res) => {
+  const mockEmails = [
+    {
+      module: "LEAD",
+      data: {
+        name: "Elon Musk",
+        company: "xAI",
+        role: "CEO",
+        budget: "$100,000+",
+        message: "We need an on-chain ops system for our new cluster. Let's talk ASAP."
+      }
+    },
+    {
+      module: "SUPPORT",
+      data: {
+        customer: "Acme Corp",
+        tier: "Enterprise",
+        subject: "Dashboard down during demo",
+        severity: "Critical",
+        description: "Our entire team is getting 502 Bad Gateway errors while trying to demo to a client."
+      }
+    },
+    {
+      module: "TASK",
+      data: {
+        title: "Fix broken links on landing page",
+        assignee: "Frontend Team",
+        deadline: new Date(Date.now() + 86400000 * 2).toISOString().split('T')[0],
+        priority: "Low",
+        details: "Several footer links are returning 404s. Please investigate and fix."
+      }
+    }
+  ];
+  // Simulate delay for realism
+  setTimeout(() => res.json({ success: true, emails: mockEmails }), 1000);
+});
+
+/**
  * Endpoint for global system stats.
  */
 app.get("/api/stats", async (req, res) => {
