@@ -2,7 +2,7 @@
 // Run: npm run deploy
 // Then paste the deployed address below
 
-export const CONTRACT_ADDRESS = "0xb62eeFF32f70d2817ec8203376de20dbd578708a";
+export const CONTRACT_ADDRESS = "0x95010D8BC6a230cbA0aF81ba3FE75DACC6De07c0";
 
 export const ABI = [
   // ── Write functions ──
