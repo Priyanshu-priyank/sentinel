@@ -16,7 +16,7 @@ const client = new OpenAI({
   }
 });
 
-const MODEL = "openai/gpt-oss-120b:free";
+const MODEL = "nvidia/nemotron-3-super-120b-a12b:free";
 
 /**
  * Orchestrates a three-agent debate for a given operations decision.
