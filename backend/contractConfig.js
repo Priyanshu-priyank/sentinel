@@ -6,11 +6,11 @@ export const CONTRACT_ADDRESS = "0xb62eeFF32f70d2817ec8203376de20dbd578708a";
 
 export const ABI = [
   // ── Write functions ──
-  "function logDecision(bytes32 _inputHash, uint8 _module, uint8 _verdict, uint8 _confidence, bytes32 _advocateHash, bytes32 _skepticHash) external returns (uint256 decisionId)",
+  "function logDecision(bytes32 _inputHash, uint8 _module, uint8 _verdict, uint8 _confidence, bytes32 _advocateHash, bytes32 _skepticHash, bytes32 _judgeHash) external returns (uint256 decisionId)",
   "function fulfillSLA(uint256 _slaId) external",
 
   // ── View functions ──
-  "function getDecision(uint256 id) external view returns (tuple(bytes32 inputHash, uint8 module, uint8 verdict, uint8 confidence, bytes32 advocateHash, bytes32 skepticHash, uint256 timestamp, address operator, bool slaCreated))",
+  "function getDecision(uint256 id) external view returns (tuple(bytes32 inputHash, uint8 module, uint8 verdict, uint8 confidence, bytes32 advocateHash, bytes32 skepticHash, bytes32 judgeHash, uint256 timestamp, address operator, bool slaCreated))",
   "function getSLA(uint256 id) external view returns (tuple(uint256 decisionId, uint256 deadline, bool fulfilled, uint256 fulfilledAt))",
   "function getProfile(address operator) external view returns (uint256 score, uint256 total, uint256 fulfilled, uint256 fulfillRate)",
   "function totalDecisions() external view returns (uint256)",

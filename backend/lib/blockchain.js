@@ -19,14 +19,15 @@ export { provider, wallet, contract };
 /**
  * Logs a decision to the Shardeum blockchain.
  */
-export async function logDecisionOnChain(inputHash, moduleEnum, verdictEnum, confidence, advocateHash, skepticHash) {
+export async function logDecisionOnChain(inputHash, moduleEnum, verdictEnum, confidence, advocateHash, skepticHash, judgeHash) {
   const tx = await contract.logDecision(
     inputHash,
     moduleEnum,
     verdictEnum,
     confidence,
     advocateHash,
-    skepticHash
+    skepticHash,
+    judgeHash
   );
   return await tx.wait();
 }

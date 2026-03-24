@@ -63,20 +63,22 @@ app.post("/api/process", async (req, res) => {
       const inputHash = ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify(data)));
       const advocateHash = ethers.keccak256(ethers.toUtf8Bytes(advocate.argument));
       const skepticHash = ethers.keccak256(ethers.toUtf8Bytes(skeptic.argument));
+      const judgeHash = ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify(judge)));
 
       // Map to solidity enums
       const moduleEnum = { LEAD: 0, SUPPORT: 1, TASK: 2 }[mod];
-      const verdictEnum = { ACCEPTED: 0, REJECTED: 1, ESCALATED: 2 }[judge.verdict];
+      const verdictEnum = { ACCEPTED: 0, REJECTED: 1, ESCALATED: 2 }[judge.verdict.toUpperCase()];
 
       // ⛓️ Write to Shardeum
-      console.log("  Submitting to Shardeum...");
+      console.log("  Submitting to Shardeum... (includes all agent logs)");
       const receipt = await logDecisionOnChain(
         inputHash,
         moduleEnum,
         verdictEnum,
         judge.confidence,
         advocateHash,
-        skepticHash
+        skepticHash,
+        judgeHash
       );
       txHash = receipt.hash;
 
