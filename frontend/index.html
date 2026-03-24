@@ -1,361 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sharedum DApp</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StartChain OS — AI-Powered Operations on Shardeum</title>
+  <meta name="description" content="Dual-agent AI deliberation with on-chain accountability. Proof of Operations for startups."/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.0/dist/ethers.umd.min.js"></script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #0f1117;
-      color: #e2e8f0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 16px;
-    }
-
-    header {
-      width: 100%;
-      max-width: 900px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 24px;
-      background: #1a1d27;
-      border-radius: 12px;
-      border: 1px solid #2d3148;
-      margin-bottom: 40px;
-    }
-
-    .logo { font-size: 1.4rem; font-weight: 700; color: #7c3aed; }
-    .logo span { color: #a78bfa; }
-
-    #connectBtn {
-      padding: 10px 22px;
-      border: none;
-      border-radius: 8px;
-      background: #7c3aed;
-      color: #fff;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-    }
-    #connectBtn:hover { background: #6d28d9; }
-    #connectBtn:active { transform: scale(0.97); }
-    #connectBtn.connected { background: #059669; cursor: default; }
-
-    .wallet-info {
-      display: none;
-      align-items: center;
-      gap: 10px;
-      background: #111827;
-      border: 1px solid #2d3148;
-      border-radius: 8px;
-      padding: 8px 16px;
-      font-size: 0.85rem;
-    }
-    .wallet-info.visible { display: flex; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; flex-shrink: 0; }
-    .address { font-family: monospace; color: #a78bfa; }
-    .balance { color: #94a3b8; margin-left: 6px; }
-
-    main {
-      width: 100%;
-      max-width: 900px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: #1a1d27;
-      border: 1px solid #2d3148;
-      border-radius: 12px;
-      padding: 24px;
-    }
-    .card h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin-bottom: 10px; }
-    .card .value { font-size: 1.4rem; font-weight: 700; color: #e2e8f0; word-break: break-all; }
-    .card .sub { font-size: 0.8rem; color: #64748b; margin-top: 4px; }
-
-    #networkBadge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 4px 12px;
-      border-radius: 20px;
-      background: #1e293b;
-      border: 1px solid #334155;
-      color: #94a3b8;
-      margin-top: 6px;
-    }
-    #networkBadge.correct { border-color: #7c3aed; color: #a78bfa; }
-
-    .action-card {
-      background: #1a1d27;
-      border: 1px solid #2d3148;
-      border-radius: 12px;
-      padding: 24px;
-      grid-column: 1 / -1;
-    }
-    .action-card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; }
-
-    .input-row { display: flex; gap: 10px; flex-wrap: wrap; }
-    .input-row input {
-      flex: 1;
-      min-width: 180px;
-      padding: 10px 14px;
-      background: #111827;
-      border: 1px solid #2d3148;
-      border-radius: 8px;
-      color: #e2e8f0;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .input-row input:focus { border-color: #7c3aed; }
-    .input-row button, .btn {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #7c3aed;
-      color: #fff;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-      white-space: nowrap;
-    }
-    .input-row button:hover, .btn:hover { background: #6d28d9; }
-    .input-row button:disabled, .btn:disabled { background: #374151; cursor: not-allowed; }
-
-    #statusMsg {
-      margin-top: 14px;
-      font-size: 0.85rem;
-      color: #a78bfa;
-      min-height: 20px;
-    }
-    #statusMsg.error { color: #f87171; }
-    #statusMsg.success { color: #34d399; }
-
-    #addNetworkBtn {
-      display: none;
-      margin-top: 12px;
-    }
-    #addNetworkBtn.visible { display: inline-block; }
-
-    footer {
-      margin-top: 48px;
-      font-size: 0.8rem;
-      color: #374151;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
+  <!-- Animated background -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
 
-<header>
-  <div class="logo">Share<span>dum</span></div>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <div class="wallet-info" id="walletInfo">
-      <div class="dot"></div>
-      <span class="address" id="shortAddress"></span>
-      <span class="balance" id="balanceDisplay"></span>
-    </div>
-    <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
-  </div>
-</header>
-
-<main>
-  <!-- Network Card -->
-  <div class="card">
-    <h3>Network</h3>
-    <div id="networkBadge">Not connected</div>
-    <div class="sub" id="chainIdDisplay"></div>
-    <button class="btn" id="addNetworkBtn" style="margin-top:14px;font-size:0.8rem;padding:8px 14px;" onclick="addShardeumNetwork()">
-      + Add Shardeum Testnet
-    </button>
-  </div>
-
-  <!-- Wallet Card -->
-  <div class="card">
-    <h3>Wallet Address</h3>
-    <div class="value" id="fullAddress" style="font-size:0.85rem;font-family:monospace;">—</div>
-    <div class="sub" id="nativeBalance">Balance: —</div>
-  </div>
-
-  <!-- SimpleStorage interaction -->
-  <div class="action-card">
-    <h2>SimpleStorage Contract</h2>
-    <p style="font-size:0.85rem;color:#64748b;margin-bottom:16px;">
-      Enter your deployed <code style="color:#a78bfa">SimpleStorage</code> contract address to read or update the stored value.
-    </p>
-    <div class="input-row" style="margin-bottom:10px;">
-      <input id="contractAddress" type="text" placeholder="Contract address (0x...)" />
-      <button onclick="loadContract()">Load</button>
-    </div>
-    <div id="contractSection" style="display:none;margin-top:16px;">
-      <div style="margin-bottom:12px;">
-        <span style="color:#64748b;font-size:0.85rem;">Stored Value: </span>
-        <span id="storedValue" style="font-size:1.1rem;font-weight:700;color:#a78bfa;">—</span>
-        <button class="btn" onclick="readValue()" style="font-size:0.8rem;padding:6px 14px;margin-left:10px;">Refresh</button>
+  <!-- Header -->
+  <header id="header">
+    <div class="header-left">
+      <div class="logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">Start<span class="logo-accent">Chain</span> OS</span>
       </div>
-      <div class="input-row">
-        <input id="newValue" type="number" placeholder="New value" min="0" />
-        <button onclick="setValue()">Set Value</button>
+      <span class="version-badge">v1.0 · Shardeum</span>
+    </div>
+    <div class="header-right">
+      <div class="wallet-info" id="walletInfo">
+        <span class="pulse-dot"></span>
+        <span class="wallet-addr" id="shortAddress"></span>
+        <span class="wallet-bal" id="balanceDisplay"></span>
+      </div>
+      <button class="btn-connect" id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
+    </div>
+  </header>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar" id="statsBar">
+    <div class="stat-item">
+      <span class="stat-value" id="statDecisions">0</span>
+      <span class="stat-label">Decisions Logged</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="statSLAs">0</span>
+      <span class="stat-label">SLA Commitments</span>
+    </div>
+    <div class="stat-item">
+      <div class="ops-score-mini" id="opsScoreMini">
+        <svg viewBox="0 0 120 70" class="gauge-svg">
+          <path d="M15,60 A45,45 0 0,1 105,60" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8" stroke-linecap="round"/>
+          <path d="M15,60 A45,45 0 0,1 105,60" fill="none" stroke="url(#gaugeGrad)" stroke-width="8" stroke-linecap="round" id="gaugeArc" stroke-dasharray="0 142"/>
+          <defs><linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#f43f5e"/><stop offset="50%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#10b981"/>
+          </linearGradient></defs>
+          <text x="60" y="52" text-anchor="middle" font-size="18" font-weight="700" fill="white" id="gaugeText">0</text>
+          <text x="60" y="66" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.5)">OPS SCORE</text>
+        </svg>
       </div>
     </div>
-    <div id="statusMsg"></div>
+    <div class="stat-item">
+      <span class="stat-value" id="statFulfillRate">—</span>
+      <span class="stat-label">SLA Fulfill Rate</span>
+    </div>
   </div>
-</main>
 
-<footer>Built on Shardeum &mdash; EVM-compatible Layer 1</footer>
+  <!-- Module Tabs -->
+  <div class="container">
+    <nav class="tab-nav">
+      <button class="tab active" data-tab="lead" onclick="switchTab('lead')">
+        <span class="tab-icon">🎯</span> Lead Qualifier
+      </button>
+      <button class="tab" data-tab="support" onclick="switchTab('support')">
+        <span class="tab-icon">🛡️</span> Support Triage
+      </button>
+      <button class="tab" data-tab="task" onclick="switchTab('task')">
+        <span class="tab-icon">⚡</span> Task Delegator
+      </button>
+      <button class="tab" data-tab="trust" onclick="switchTab('trust')">
+        <span class="tab-icon">📊</span> Trust Dashboard
+      </button>
+    </nav>
 
-<script>
-  // Shardeum Testnet (Mezame)
-  const SHARDEUM_TESTNET = {
-    chainId: '0x1FB7',       // 8119 in hex
-    chainName: 'Shardeum Mezame (Testnet)',
-    nativeCurrency: { name: 'SHM', symbol: 'SHM', decimals: 18 },
-    rpcUrls: ['https://api-mezame.shardeum.org'],
-    blockExplorerUrls: ['https://explorer-mezame.shardeum.org']
-  };
+    <div class="main-grid">
+      <!-- Left: Input Panel -->
+      <div class="panel input-panel">
+        <!-- Lead Form -->
+        <div class="form-section active" id="form-lead">
+          <h2 class="panel-title">Qualify Inbound Lead</h2>
+          <p class="panel-desc">AI agents will debate whether this lead is worth pursuing.</p>
+          <div class="form-grid">
+            <div class="input-group"><label>Contact Name</label><input id="lead-name" placeholder="Jane Smith"/></div>
+            <div class="input-group"><label>Company</label><input id="lead-company" placeholder="Acme Corp"/></div>
+            <div class="input-group"><label>Role / Title</label><input id="lead-role" placeholder="VP of Engineering"/></div>
+            <div class="input-group"><label>Est. Budget</label><input id="lead-budget" placeholder="$50,000"/></div>
+            <div class="input-group full-width"><label>Message / Notes</label><textarea id="lead-message" rows="3" placeholder="Reached out via LinkedIn, interested in enterprise plan..."></textarea></div>
+          </div>
+          <button class="btn-submit" onclick="submitDecision('LEAD')">
+            <span class="btn-text">Qualify Lead →</span>
+            <span class="btn-loading">Two agents deliberating<span class="dots"></span></span>
+          </button>
+        </div>
 
-  const SIMPLE_STORAGE_ABI = [
-    "function value() view returns (uint256)",
-    "function owner() view returns (address)",
-    "function setValue(uint256 _value)",
-    "event ValueUpdated(address indexed setter, uint256 oldValue, uint256 newValue)"
-  ];
+        <!-- Support Form -->
+        <div class="form-section" id="form-support">
+          <h2 class="panel-title">Triage Support Ticket</h2>
+          <p class="panel-desc">AI will assess urgency and recommend escalation or resolution.</p>
+          <div class="form-grid">
+            <div class="input-group"><label>Customer</label><input id="support-customer" placeholder="Customer name"/></div>
+            <div class="input-group"><label>Tier</label>
+              <select id="support-tier"><option>Free</option><option>Pro</option><option>Enterprise</option></select>
+            </div>
+            <div class="input-group"><label>Subject</label><input id="support-subject" placeholder="Cannot access dashboard"/></div>
+            <div class="input-group"><label>Severity</label>
+              <select id="support-severity"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select>
+            </div>
+            <div class="input-group full-width"><label>Description</label><textarea id="support-description" rows="3" placeholder="User reports 500 error when..."></textarea></div>
+          </div>
+          <button class="btn-submit" onclick="submitDecision('SUPPORT')">
+            <span class="btn-text">Triage Ticket →</span>
+            <span class="btn-loading">Two agents deliberating<span class="dots"></span></span>
+          </button>
+        </div>
 
-  let provider, signer, account, storageContract;
+        <!-- Task Form -->
+        <div class="form-section" id="form-task">
+          <h2 class="panel-title">Delegate Task</h2>
+          <p class="panel-desc">AI will evaluate priority and suggest optimal delegation.</p>
+          <div class="form-grid">
+            <div class="input-group"><label>Task Title</label><input id="task-title" placeholder="Redesign pricing page"/></div>
+            <div class="input-group"><label>Assignee</label><input id="task-assignee" placeholder="Team member name"/></div>
+            <div class="input-group"><label>Deadline</label><input id="task-deadline" type="date"/></div>
+            <div class="input-group"><label>Priority</label>
+              <select id="task-priority"><option>Low</option><option>Medium</option><option>High</option><option>Urgent</option></select>
+            </div>
+            <div class="input-group full-width"><label>Details</label><textarea id="task-details" rows="3" placeholder="Need to update the pricing tiers to reflect new plans..."></textarea></div>
+          </div>
+          <button class="btn-submit" onclick="submitDecision('TASK')">
+            <span class="btn-text">Evaluate Task →</span>
+            <span class="btn-loading">Two agents deliberating<span class="dots"></span></span>
+          </button>
+        </div>
 
-  // ── Wallet connection ──────────────────────────────────────────────────────
-  async function connectWallet() {
-    if (!window.ethereum) {
-      return setStatus('MetaMask not detected. Please install it.', 'error');
-    }
-    try {
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
-      provider = new ethers.BrowserProvider(window.ethereum);
-      signer   = await provider.getSigner();
-      account  = await signer.getAddress();
-      await updateUI();
-    } catch (e) {
-      setStatus(e.message, 'error');
-    }
-  }
+        <!-- Trust Dashboard Form -->
+        <div class="form-section" id="form-trust">
+          <h2 class="panel-title">Investor Trust Dashboard</h2>
+          <p class="panel-desc">Enter any wallet address to view their on-chain verified operations reputation.</p>
+          <div class="form-grid">
+            <div class="input-group full-width"><label>Wallet Address</label><input id="trust-address" placeholder="0x..." /></div>
+          </div>
+          <button class="btn-submit" onclick="loadTrustDashboard()" style="background:linear-gradient(135deg,#7c3aed,#3b82f6)">
+            <span class="btn-text">View Trust Report →</span>
+            <span class="btn-loading">Loading on-chain data<span class="dots"></span></span>
+          </button>
+          <div id="trustResult" class="trust-result"></div>
+        </div>
+      </div>
 
-  async function updateUI() {
-    const network = await provider.getNetwork();
-    const chainId = Number(network.chainId);
-    const bal = await provider.getBalance(account);
-    const balEth = parseFloat(ethers.formatEther(bal)).toFixed(4);
+      <!-- Right: Results + Feed -->
+      <div class="right-col">
+        <!-- Decision Result -->
+        <div class="panel result-panel" id="resultPanel">
+          <div class="empty-state" id="emptyState">
+            <div class="empty-icon">⬡</div>
+            <h3>No decisions yet</h3>
+            <p>Submit a lead, ticket, or task and watch two AI agents debate the decision — then log it immutably on Shardeum.</p>
+          </div>
+          <div class="result-content" id="resultContent" style="display:none"></div>
+        </div>
 
-    // Header wallet info
-    document.getElementById('shortAddress').textContent = shortAddr(account);
-    document.getElementById('balanceDisplay').textContent = `${balEth} SHM`;
-    document.getElementById('walletInfo').classList.add('visible');
+        <!-- Live Chain Feed -->
+        <div class="panel feed-panel">
+          <h3 class="feed-title">
+            <span class="live-dot"></span>
+            Live Chain Events
+          </h3>
+          <div class="feed-list" id="feedList">
+            <p class="feed-empty">Waiting for on-chain events...</p>
+          </div>
+        </div>
 
-    // Connect button → connected state
-    const btn = document.getElementById('connectBtn');
-    btn.textContent = 'Connected';
-    btn.classList.add('connected');
+        <!-- Active SLAs -->
+        <div class="panel sla-panel">
+          <h3 class="feed-title">⏰ Active SLA Commitments</h3>
+          <div id="slaList" class="sla-list">
+            <p class="feed-empty">No active SLAs yet</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    // Cards
-    document.getElementById('fullAddress').textContent = account;
-    document.getElementById('nativeBalance').textContent = `Balance: ${balEth} SHM`;
+  <footer>
+    <span>StartChain OS · Built on <strong>Shardeum</strong> · Proof of Operations</span>
+  </footer>
 
-    // Network badge
-    const badge = document.getElementById('networkBadge');
-    document.getElementById('chainIdDisplay').textContent = `Chain ID: ${chainId}`;
-    if (chainId === 8119) {
-      badge.textContent = '✓ Shardeum Testnet';
-      badge.classList.add('correct');
-      document.getElementById('addNetworkBtn').classList.remove('visible');
-    } else {
-      badge.textContent = `Chain: ${chainId}`;
-      badge.classList.remove('correct');
-      document.getElementById('addNetworkBtn').classList.add('visible');
-    }
-  }
-
-  // ── Add / switch network ───────────────────────────────────────────────────
-  async function addShardeumNetwork() {
-    try {
-      await window.ethereum.request({
-        method: 'wallet_addEthereumChain',
-        params: [SHARDEUM_TESTNET]
-      });
-      await updateUI();
-    } catch (e) {
-      setStatus(e.message, 'error');
-    }
-  }
-
-  // ── SimpleStorage helpers ──────────────────────────────────────────────────
-  async function loadContract() {
-    const addr = document.getElementById('contractAddress').value.trim();
-    if (!addr) return setStatus('Enter a contract address.', 'error');
-    if (!provider) return setStatus('Connect your wallet first.', 'error');
-    try {
-      storageContract = new ethers.Contract(addr, SIMPLE_STORAGE_ABI, signer);
-      await readValue();
-      document.getElementById('contractSection').style.display = 'block';
-      setStatus('Contract loaded!', 'success');
-    } catch (e) {
-      setStatus('Failed to load contract: ' + e.message, 'error');
-    }
-  }
-
-  async function readValue() {
-    if (!storageContract) return;
-    try {
-      const val = await storageContract.value();
-      document.getElementById('storedValue').textContent = val.toString();
-    } catch (e) {
-      setStatus('Read failed: ' + e.message, 'error');
-    }
-  }
-
-  async function setValue() {
-    if (!storageContract) return;
-    const num = document.getElementById('newValue').value;
-    if (num === '') return setStatus('Enter a value.', 'error');
-    try {
-      setStatus('Sending transaction…');
-      const tx = await storageContract.setValue(num);
-      setStatus('Waiting for confirmation…');
-      await tx.wait();
-      await readValue();
-      setStatus('Value updated!', 'success');
-    } catch (e) {
-      setStatus(e.reason || e.message, 'error');
-    }
-  }
-
-  // ── Utils ──────────────────────────────────────────────────────────────────
-  function shortAddr(addr) {
-    return addr.slice(0, 6) + '…' + addr.slice(-4);
-  }
-
-  function setStatus(msg, type = '') {
-    const el = document.getElementById('statusMsg');
-    el.textContent = msg;
-    el.className = type;
-  }
-
-  // Listen for account / network changes
-  if (window.ethereum) {
-    window.ethereum.on('accountsChanged', () => location.reload());
-    window.ethereum.on('chainChanged',    () => location.reload());
-  }
-</script>
+  <script src="app.js"></script>
 </body>
 </html>
